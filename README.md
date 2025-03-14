@@ -1,7 +1,17 @@
 # ESP32 GibberLink
 
+[![Arduino Library](https://img.shields.io/badge/Arduino-Library-blue.svg)](https://www.arduino.cc/reference/en/libraries/esp32gibberlink/)
+[![ESP32](https://img.shields.io/badge/ESP32-Compatible-green.svg)](https://www.espressif.com/en/products/socs/esp32)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 > [!IMPORTANT]
 > This is a work-in-progress ESP32 port of the [GibberLink](https://github.com/PennyroyalTea/gibberlink) library for transmitting data over audio waves. While basic functionality is working, some features may be incomplete or subject to change.
+
+## About
+
+ESP32 GibberLink is an Arduino library that enables data transmission over audio waves using ESP32 microcontrollers. It's a port of the original GibberLink project, specifically optimized for ESP32's hardware capabilities.
+
+**Keywords**: ESP32, Arduino, Audio Communication, Data Transmission, I2S, DAC, Wireless Communication, ESP32 Library, Audio Protocol, ESP32 Projects
 
 ## Status
 
