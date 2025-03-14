@@ -1,57 +1,62 @@
 # ESP32 GibberLink
 
-Eine ESP32-Portierung der [GibberLink](https://github.com/PennyroyalTea/gibberlink) Bibliothek für die Übertragung von Daten über Audiowellen.
+> [!IMPORTANT]
+> This is a work-in-progress ESP32 port of the [GibberLink](https://github.com/PennyroyalTea/gibberlink) library for transmitting data over audio waves. While basic functionality is working, some features may be incomplete or subject to change.
 
 ## Status
 
-Dieses Projekt befindet sich noch in der Entwicklung. Die grundlegende Funktionalität ist implementiert, aber einige Features sind möglicherweise noch unvollständig oder können sich ändern.
+🚧 **Under Development** 🚧
+- Basic functionality is implemented
+- Some features may be incomplete
+- API may change in future versions
+- Testing and optimization ongoing
 
 ## Features
 
-- Übertragung von Daten über Audiowellen
-- Web-Interface zum Senden von Nachrichten
-- Unterstützung für direkte Lautsprecherverbindung (DAC) und I2S-Verstärker
-- Kompatibel mit allen ASCII-Zeichen
-- Einfache Integration in bestehende Projekte
-- Web-basierter Sender enthalten
+- Data transmission over audio waves
+- Web interface for sending messages
+- Support for both direct speaker connection (DAC) and I2S amplifier
+- Compatible with all ASCII characters
+- Easy integration into existing projects
+- Web-based sender included
 
-## Hardware-Anforderungen
+## Hardware Requirements
 
-### Basis-Setup (DAC-Ausgang)
-- ESP32 Entwicklungsboard
-- I2S MEMS Mikrofon (z.B. INMP441)
-- 8Ω Lautsprecher oder Piezo-Summer
-- 100Ω Widerstand
+### Basic Setup (DAC output)
+- ESP32 Development Board
+- I2S MEMS Microphone (e.g., INMP441)
+- 8Ω speaker or piezo buzzer
+- 100Ω resistor
 
-### Erweitertes Setup (I2S-Ausgang)
-- ESP32 Entwicklungsboard
-- I2S MEMS Mikrofon (z.B. INMP441)
-- MAX98357A I2S-Verstärker
-- Lautsprecher (4Ω oder 8Ω)
+### Enhanced Setup (I2S output)
+- ESP32 Development Board
+- I2S MEMS Microphone (e.g., INMP441)
+- MAX98357A I2S Amplifier
+- Speaker (4Ω or 8Ω)
 
-## Pin-Verbindungen
+## Pin Connections
 
-### Mikrofon (INMP441)
+### Microphone (INMP441)
 ```
 ESP32    INMP441
 3.3V --- VDD
 GND  --- GND
-GPIO34 - SD (Daten)
+GPIO34 - SD (Data)
 GND  --- L/R
 GPIO25 - WS (Word Select)
 GPIO26 - SCK (Serial Clock)
 ```
 
-### Lautsprecher-Optionen
+### Speaker Options
 
-#### 1. Direkte DAC-Verbindung
+#### 1. Direct DAC Connection
 ```
-ESP32              Lautsprecher
-GPIO25 --- 100Ω --- Plus
-GND   ------------ Minus
+ESP32              Speaker
+GPIO25 --- 100Ω --- Positive
+GND   ------------ Negative
 ```
 
-#### 2. I2S-Verstärker (MAX98357A)
+#### 2. I2S Amplifier (MAX98357A)
 ```
 ESP32         MAX98357A
 GPIO26 ------ BCLK
@@ -63,27 +68,27 @@ GND   ------ GND
 
 ## Installation
 
-1. Laden Sie dieses Repository als ZIP herunter
-2. In der Arduino IDE: Sketch -> Bibliothek einbinden -> .ZIP Bibliothek hinzufügen
-3. Wählen Sie die heruntergeladene ZIP-Datei aus
+1. Download this repository as ZIP
+2. In Arduino IDE: Sketch -> Include Library -> Add .ZIP Library
+3. Select the downloaded ZIP file
 
-## Verwendung
+## Usage
 
-### Basis-Beispiel
+### Basic Example
 ```cpp
 #include <ESP32GibberLink.h>
 
 ESP32GibberLink gibberlink;
 
 void onDataReceived(const char* data, size_t length) {
-    Serial.println("Empfangen: ");
+    Serial.println("Received: ");
     Serial.write((uint8_t*)data, length);
 }
 
 void setup() {
-    // Initialisiere mit DAC-Ausgang
+    // Initialize with DAC output
     gibberlink.begin(MIC_PIN, SPEAKER_PIN);
-    // Oder initialisiere mit I2S-Ausgang
+    // Or initialize with I2S output
     // gibberlink.beginI2S(MIC_PIN, I2S_BCLK, I2S_LRC, I2S_DOUT);
     
     gibberlink.setDataCallback(onDataReceived);
@@ -91,55 +96,55 @@ void setup() {
 }
 ```
 
-### Web-Interface
+### Web Interface
 
-Die Bibliothek enthält ein Web-Interface-Beispiel zum Senden von Nachrichten aus jedem Browser:
+The library includes a web interface example for sending messages from any browser:
 
-1. Laden Sie das `web_sender` Beispiel hoch
-2. Verbinden Sie sich mit dem WiFi-Netzwerk des ESP32
-3. Öffnen Sie die angezeigte IP-Adresse in Ihrem Browser
-4. Geben Sie Text ein und klicken Sie auf "Senden"
+1. Upload the `web_sender` example
+2. Connect to the ESP32's WiFi network
+3. Open the displayed IP address in your browser
+4. Enter text and click "Send"
 
-## Konfiguration
+## Configuration
 
-In `web_sender.ino` können Sie den Audio-Ausgangstyp wählen:
+In `web_sender.ino`, you can select the audio output type:
 ```cpp
-// Wählen Sie Ihren Audio-Ausgangstyp
-#define AUDIO_OUTPUT_TYPE  AUDIO_OUTPUT_DAC  // Einfacher Lautsprecher
-// oder
-#define AUDIO_OUTPUT_TYPE  AUDIO_OUTPUT_I2S  // I2S-Verstärker
+// Choose your audio output type
+#define AUDIO_OUTPUT_TYPE  AUDIO_OUTPUT_DAC  // Simple speaker
+// or
+#define AUDIO_OUTPUT_TYPE  AUDIO_OUTPUT_I2S  // I2S amplifier
 ```
 
-## Protokoll-Details
+## Protocol Details
 
-Das Audio-Protokoll verwendet:
-- Abtastrate: 16kHz
-- Bittiefe: 16-bit
-- Frequenzbereich: 1000Hz - 2600Hz
-- Bitdauer: 10ms
-- Fehlererkennung: Basis-Paketvalidierung
+The audio protocol uses:
+- Sample rate: 16kHz
+- Bit depth: 16-bit
+- Frequency range: 1000Hz - 2600Hz
+- Bit duration: 10ms
+- Error detection: Basic packet validation
 
-## Einschränkungen
+## Limitations
 
-- Maximale Nachrichtenlänge: 256 Bytes
-- Übertragungsgeschwindigkeit: ~100 Bytes/Sekunde
-- Reichweite abhängig von Lautstärke und Umgebungsgeräuschen
-- Beste Ergebnisse in ruhiger Umgebung
+- Maximum message length: 256 bytes
+- Transmission speed: ~100 bytes/second
+- Range depends on volume and environmental noise
+- Best results in quiet environments
 
-## Mitwirken
+## Contributing
 
-1. Forken Sie das Repository
-2. Erstellen Sie Ihren Feature-Branch
-3. Committen Sie Ihre Änderungen
-4. Pushen Sie zum Branch
-5. Erstellen Sie einen Pull Request
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
-## Lizenz
+## License
 
-Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe die LICENSE-Datei für Details.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Danksagungen
+## Acknowledgments
 
-- Original [GibberLink Projekt](https://github.com/PennyroyalTea/gibberlink)
-- [ggwave Bibliothek](https://github.com/ggerganov/ggwave) von Georgi Gerganov
-- ESP32 Arduino Core Entwickler
+- Original [GibberLink project](https://github.com/PennyroyalTea/gibberlink)
+- [ggwave library](https://github.com/ggerganov/ggwave) by Georgi Gerganov
+- ESP32 Arduino Core developers
