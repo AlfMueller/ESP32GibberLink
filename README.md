@@ -11,6 +11,22 @@
 - API may change in future versions
 - Testing and optimization ongoing
 
+## Required Libraries
+
+This project requires the following libraries to be installed in your Arduino IDE:
+
+1. [ESP32 Arduino Core](https://github.com/espressif/arduino-esp32) - Required for ESP32 support
+2. [ArduinoJson](https://github.com/bblanchon/ArduinoJson) - For JSON handling in the web interface
+3. [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer) - For the web interface
+4. [AsyncTCP](https://github.com/me-no-dev/AsyncTCP) - Required by ESPAsyncWebServer
+
+### Installation Steps
+
+1. Open Arduino IDE
+2. Go to Tools -> Manage Libraries
+3. Search for and install each library listed above
+4. For ESP32 Arduino Core, follow the [official installation guide](https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html)
+
 ## Features
 
 - Data transmission over audio waves
